@@ -41,6 +41,8 @@ The sample bars and checkpoints in `Samples.swift` are illustrative, per screen 
 
 ## How to run it
 
+Requirements: a Swift 6 toolchain (Xcode 16 or later; the tests use Swift Testing). The library supports iOS 17+ and macOS 14+, and the demo app targets iOS 17+. Verified locally on Xcode 27.2 / Swift 6.4.2; the CI line under Verification status names the toolchain CI used.
+
 1. Clone the repo and open `Demo.xcodeproj`.
 2. Pick an iPhone Simulator and press Build & Run. The library is a local package reference in the same repo, so there is no other setup.
 
