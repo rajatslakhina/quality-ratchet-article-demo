@@ -53,6 +53,8 @@ Library only: `swift build` and `swift test` from the repo root. `Scripts/simula
 - The gate checks numbers and evidence. It does not measure anything. Your own tooling (Instruments, XCTest metrics, an accessibility audit) has to produce the numbers.
 - Evidence is a free-text note. The gate only checks that it is not empty, so a pod can write "done" and pass. Link to a trace, an audit or a PR comment that a reviewer can open.
 - Ratcheting on a single noisy sample can lock in a lucky run. In a real pipeline, ratchet on a median of several runs.
+- A `QualityBudget` is one set of bars. Keep one budget per screen or flow: ratchet a shared budget with your leanest screen and every other screen has to beat it. (The demo applies one sample budget to three screens only to show the gate's verdicts.)
+- The library doesn't fail a build or save a ratcheted budget. Wiring `evaluate(_:)` into CI and committing the tightened limits back to the budget definition is your pipeline's job. This repo's CI runs the unit tests and the demo, not a quality gate on itself.
 - There is deliberately no API to loosen a bar. In a real repo, loosening should be a reviewed edit to the budget definition, with a named approver.
 - Headroom is relative to the measured value, so a bar at exactly 0 (like accessibility failures) stays at 0.
 
@@ -61,7 +63,7 @@ Library only: `swift build` and `swift test` from the repo root. `Scripts/simula
 For the version in this repository:
 
 - `rm -rf .build && swift build -Xswiftc -warnings-as-errors`: clean (Xcode 27.2, Swift 6.4.2).
-- `swift test`: 26 Swift Testing tests in 4 suites (three are parameterized, covering 11 argument cases), 0 failures.
+- `swift test`: 27 Swift Testing tests in 4 suites (three are parameterized, covering 11 argument cases), 0 failures.
 - The demo app was built with `xcodebuild` and run on a newly created iPhone 17 Pro Simulator (iOS 27.2). Each tab was launched, confirmed still running after 8 seconds, and screenshotted. The screenshots above are from that run.
 - CI: (added after the first CI run)
 

@@ -47,6 +47,9 @@ struct QualityBarTests {
 
     @Test func summaryFormatsWholeAndFractionalLimits() throws {
         #expect(try bar("m", limit: 250).summary == "m ≤ 250 u")
+        let percent = try QualityBar(id: "p", name: "Covered", unit: "%", direction: .atLeast, limit: 90,
+                                     owner: "o", pass: .failureModes)
+        #expect(percent.summary == "Covered ≥ 90%")
         #expect(try bar("m", .atLeast, limit: 209.5).summary == "m ≥ 209.5 u")
     }
 }
@@ -68,6 +71,11 @@ struct EvaluateTests {
             .missingEvidence(.staffReview),
         ]))
         #expect(budget.evaluate(Samples.ordersListFollowUp) == .ship)
+    }
+
+    @Test func findingDescriptionIsUsedForInterpolation() {
+        let finding = Finding.overBudget(barID: "peak-memory", value: 230, limit: 209.00000000000003)
+        #expect("\(finding)" == "peak-memory: 230 misses the limit of 209")
     }
 
     @Test func whitespaceEvidenceCountsAsMissing() throws {
@@ -189,8 +197,13 @@ struct RatchetTests {
     @Test(arguments: [-0.01, 1.01, Double.nan, .infinity])
     func headroomOutsideZeroToOneIsRejected(headroom: Double) throws {
         let budget = try Samples.budget()
-        #expect(throws: QualityRatchetError.self) {
-            try budget.ratcheted(by: Samples.ordersList, headroom: headroom)
+        do {
+            _ = try budget.ratcheted(by: Samples.ordersList, headroom: headroom)
+            Issue.record("expected headroomOutOfRange for \(headroom)")
+        } catch QualityRatchetError.headroomOutOfRange {
+            // expected
+        } catch {
+            Issue.record("wrong error \(error)")
         }
     }
 

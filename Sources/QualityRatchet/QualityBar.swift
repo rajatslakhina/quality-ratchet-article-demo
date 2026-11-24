@@ -100,8 +100,8 @@ public struct QualityBar: Sendable, Hashable, Identifiable {
         self.pass = pass
     }
 
-    /// "Peak memory (P50) ≤ 250 MB".
-    public var summary: String { "\(name) \(direction.symbol) \(NumberText.format(limit)) \(unit)" }
+    /// "Peak memory (P50) ≤ 250 MB", "Failure modes with a test ≥ 90%".
+    public var summary: String { "\(name) \(direction.symbol) \(NumberText.format(limit, unit: unit))" }
 }
 
 enum NumberText {
@@ -112,5 +112,10 @@ enum NumberText {
         while text.hasSuffix("0") { text.removeLast() }
         if text.hasSuffix(".") { text.removeLast() }
         return text == "-0" ? "0" : text
+    }
+
+    /// The value followed by its unit; "%" attaches without a space.
+    static func format(_ value: Double, unit: String) -> String {
+        unit == "%" ? "\(format(value))%" : "\(format(value)) \(unit)"
     }
 }

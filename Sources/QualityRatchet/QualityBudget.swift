@@ -20,7 +20,7 @@ public struct Checkpoint: Sendable, Hashable, Identifiable {
 }
 
 /// Why a checkpoint is held.
-public enum Finding: Sendable, Hashable {
+public enum Finding: Sendable, Hashable, CustomStringConvertible {
     case missingMeasurement(barID: String)
     case invalidMeasurement(barID: String)
     case overBudget(barID: String, value: Double, limit: Double)

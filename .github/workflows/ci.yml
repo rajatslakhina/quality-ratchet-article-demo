@@ -17,6 +17,8 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
+      - name: Toolchain
+        run: xcodebuild -version && swift --version
       - name: swift build (warnings as errors)
         run: swift build -Xswiftc -warnings-as-errors
       - name: swift test
@@ -27,6 +29,8 @@ jobs:
     needs: library
     steps:
       - uses: actions/checkout@v4
+      - name: Toolchain
+        run: xcodebuild -version
       - name: Build, install, launch and screenshot on iOS Simulator
         run: bash Scripts/simulator-screenshots.sh
       - name: Upload screenshots

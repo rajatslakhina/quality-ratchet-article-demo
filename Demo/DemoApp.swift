@@ -105,11 +105,11 @@ struct RatchetView: View {
                     HStack {
                         Text(name)
                         Spacer()
-                        Text("\(format(change.oldLimit)) → \(format(change.newLimit)) \(unit)")
+                        Text("\(format(change.oldLimit)) → \(format(change.newLimit))\(unit == "%" ? "%" : " " + unit)")
                             .monospacedDigit().foregroundStyle(.blue)
                     }
                 }
-                Text("Bars it beat by less than the headroom stay where they were.")
+                Text("Bars it didn't beat by more than the headroom stay where they were.")
                     .font(.caption).foregroundStyle(.secondary)
             }
             Section("Next change: “\(Samples.ordersListFollowUp.title)”, \(followUpMemory)") {
