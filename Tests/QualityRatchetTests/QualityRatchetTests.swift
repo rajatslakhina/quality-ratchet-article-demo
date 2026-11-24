@@ -174,6 +174,12 @@ struct RatchetTests {
         #expect(try budget.ratcheted(by: c, headroom: 0).budget.bar("m")?.limit == 190)
     }
 
+    @Test func headroomOfOneIsAccepted() throws {
+        let budget = try QualityBudget(bars: [bar("m", limit: 250)], requiredPasses: [])
+        let c = Checkpoint(id: "c", title: "c", measurements: ["m": 100], evidence: [:])
+        #expect(try budget.ratcheted(by: c, headroom: 1).budget.bar("m")?.limit == 200)
+    }
+
     @Test func negativeValuesStillGetSlackInTheLooserDirection() throws {
         // e.g. a "change in crash rate" bar where negative is good.
         let budget = try QualityBudget(bars: [bar("d", limit: 0)], requiredPasses: [])

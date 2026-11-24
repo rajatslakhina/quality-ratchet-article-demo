@@ -1,6 +1,6 @@
 # QualityRatchet
 
-A small Swift library and SwiftUI demo of a **quality budget** for teams whose coding agents have made them faster: measurable quality bars with named owners, quality passes that must leave evidence before a checkpoint ships, and a **ratchet** that tightens a bar when a checkpoint ships better than it, so the gain can't quietly leak back later.
+A small Swift library and SwiftUI demo of a **quality budget** for teams whose coding agents have made them faster: measurable quality bars with named owners, quality passes that must leave evidence before a checkpoint ships, and a **ratchet** that tightens a bar when a checkpoint ships better than it, so the gain can't quietly leak back later beyond the headroom.
 
 Article: (added after publish)
 
@@ -63,7 +63,7 @@ Library only: `swift build` and `swift test` from the repo root. `Scripts/simula
 For the version in this repository:
 
 - `rm -rf .build && swift build -Xswiftc -warnings-as-errors`: clean (Xcode 27.2, Swift 6.4.2).
-- `swift test`: 27 Swift Testing tests in 4 suites (three are parameterized, covering 11 argument cases), 0 failures.
+- `swift test`: 28 Swift Testing tests in 4 suites (three are parameterized, covering 11 argument cases), 0 failures.
 - The demo app was built with `xcodebuild` and run on a newly created iPhone 17 Pro Simulator (iOS 27.2). Each tab was launched, confirmed still running after 8 seconds, and screenshotted. The screenshots above are from that run.
 - CI: (added after the first CI run)
 

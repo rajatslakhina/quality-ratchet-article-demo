@@ -108,7 +108,7 @@ public struct QualityBudget: Sendable, Hashable {
 
     /// Tightens each bar toward what a shipped checkpoint actually achieved, plus `headroom`
     /// (0.1 = 10% slack for noise). A limit only ever moves in the stricter direction, so a
-    /// gain that has shipped cannot quietly leak back in a later checkpoint.
+    /// gain that has shipped cannot quietly leak back beyond the headroom in a later checkpoint.
     ///
     /// Throws if the checkpoint does not ship against this budget: numbers from a held
     /// checkpoint never move a bar.
