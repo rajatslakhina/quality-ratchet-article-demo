@@ -58,6 +58,24 @@ Library only: `swift build` and `swift test` from the repo root. `Scripts/simula
 - There is deliberately no API to loosen a bar. In a real repo, loosening should be a reviewed edit to the budget definition, with a named approver.
 - Headroom is relative to the measured value, so a checkpoint that measures 0 (like 0 accessibility failures) locks that bar at 0 with no slack, even if its limit was higher.
 
+## Questions you might have
+
+**Don't XCTest performance tests already do this?** They compare a run against a baseline someone accepted, and nothing tightens that baseline when you get faster. They also don't cover accessibility or whether a review pass ran. If you already have them, use their numbers as the measurements for your performance bars.
+
+**Won't this slow the team down?** A little, on purpose: it spends part of the time agents saved. Passes are required per budget (`requiredPasses`), so a low-risk screen can require fewer of them than a checkout flow.
+
+**What does it cost?** Each agent quality pass costs tokens and wall-clock time per checkpoint, and ratcheting on a median means several measurement runs in CI. The gate itself is a pure function and costs nothing measurable.
+
+**How would I run it on a real codebase?**
+1. Start with three bars you already measure, and commit one budget per screen or flow.
+2. In CI, turn your measurements (XCTest metrics, `XCUIApplication.performAccessibilityAudit()` results, a failure-mode checklist) into a `Checkpoint`, with links to the evidence for each required pass.
+3. Call `evaluate(_:)` and fail the job on `.hold`, printing each `Finding`.
+4. After merge, call `ratcheted(by:headroom:)` on the shipped checkpoint (ideally on a median of several runs) and open a PR that commits the tightened limits back to the budget definition.
+5. Render each pass prompt with `PassPrompt.render` from that same budget, so the agent is asked about exactly the limits CI enforces.
+This library is the policy core for steps 3-5; it does not ship the CI pipeline or a budget file format.
+
+**What if a bar is wrong?** Loosen it as a reviewed edit to the budget definition, with a named approver. There is deliberately no API for loosening.
+
 ## Verification status
 
 For the version in this repository:
