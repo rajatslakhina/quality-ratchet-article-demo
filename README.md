@@ -1,6 +1,6 @@
 # QualityRatchet
 
-A small Swift library and SwiftUI demo of a **quality budget** for teams whose coding agents have made them faster: measurable quality bars with named owners, quality passes that must leave evidence before a checkpoint ships, and a **ratchet** that tightens a bar when a checkpoint ships better than it, so the gain can't quietly leak back later beyond the headroom.
+A small Swift library and SwiftUI demo of a **quality budget** for teams whose coding agents have made them faster: measurable quality bars with named owners, quality passes that must leave evidence before a checkpoint ships, and a **ratchet** that tightens a bar when a checkpoint beats it by more than the headroom, so the gain can't quietly leak back later beyond that headroom.
 
 Article: (added after publish)
 
