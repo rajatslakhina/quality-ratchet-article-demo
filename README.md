@@ -52,7 +52,7 @@ Library only: `swift build` and `swift test` from the repo root. `Scripts/simula
 
 - The gate checks numbers and evidence. It does not measure anything. Your own tooling (Instruments, XCTest metrics, an accessibility audit) has to produce the numbers.
 - Evidence is a free-text note. The gate only checks that it is not empty, so a pod can write "done" and pass. Link to a trace, an audit or a PR comment that a reviewer can open.
-- Ratcheting on a single noisy sample can lock in a lucky run. In a real pipeline, ratchet on a median of several runs.
+- Gate and ratchet on lab numbers: the median of several CI runs on a fixed device and build. A single run can lock in a lucky result, and field P50s (MetricKit, Xcode Organizer) arrive after release, too late to gate a PR, though they are useful for checking that the bars still track reality.
 - A `QualityBudget` is one set of bars. Keep one budget per screen or flow: ratchet a shared budget with your leanest screen and every other screen is held to that screen's number plus headroom. (The demo applies one sample budget to three screens only to show the gate's verdicts.)
 - The library doesn't fail a build or save a ratcheted budget. Wiring `evaluate(_:)` into CI and committing the tightened limits back to the budget definition is your pipeline's job. This repo's CI runs the unit tests and the demo, not a quality gate on itself.
 - There is deliberately no API to loosen a bar. In a real repo, loosening should be a reviewed edit to the budget definition, with a named approver.
@@ -68,7 +68,7 @@ Library only: `swift build` and `swift test` from the repo root. `Scripts/simula
 
 **How would I run it on a real codebase?**
 1. Start with three bars you already measure, and commit one budget per screen or flow.
-2. In CI, turn your measurements (XCTest metrics, `XCUIApplication.performAccessibilityAudit()` results, a failure-mode checklist) into a `Checkpoint`, with links to the evidence for each required pass.
+2. In CI, turn your measurements (XCTest metrics; the number of issues `XCUIApplication.performAccessibilityAudit()` passes to its issue handler on each audited screen, returning true there to count them instead of failing the test; a failure-mode checklist) into a `Checkpoint`, with links to the evidence for each required pass.
 3. Call `evaluate(_:)` and fail the job on `.hold`, printing each `Finding`.
 4. After merge, call `ratcheted(by:headroom:)` on the shipped checkpoint (ideally on a median of several runs) and open a PR that commits the tightened limits back to the budget definition.
 5. Render each pass prompt with `PassPrompt.render` from that same budget, so the agent is asked about exactly the limits CI enforces.
