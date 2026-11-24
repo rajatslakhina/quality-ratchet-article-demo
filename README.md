@@ -2,7 +2,7 @@
 
 A small Swift library and SwiftUI demo of a **quality budget** for teams whose coding agents have made them faster: measurable quality bars with named owners, quality passes that must leave evidence before a checkpoint ships, and a **ratchet** that tightens a bar when a checkpoint beats it by more than the headroom, so the gain can't quietly leak back later beyond that headroom.
 
-Article: (added after publish)
+Article: [Your Coding Agents Bought the Team Time. Without a Quality Budget, the Roadmap Decides How It's Spent.](https://medium.com/@er.rajatlakhina/your-coding-agents-bought-time-without-a-quality-budget-the-roadmap-decides-how-its-spent-19eb06132982)
 
 <p align="center">
   <img src="Demo/Screenshots/gate.png" width="300" alt="Quality gate tab on the iOS Simulator: four budget bars with owners, then three checkpoints. Orders list ships; Order detail is held for peak memory 310 over 250; Refund flow is held for a missing accessibility measurement and missing staff-review evidence.">
@@ -85,7 +85,7 @@ For the version in this repository:
 - `rm -rf .build && swift build -Xswiftc -warnings-as-errors`: clean (Xcode 27.2, Swift 6.4.2).
 - `swift test`: 28 Swift Testing tests in 4 suites (three are parameterized, covering 11 argument cases), 0 failures.
 - The demo app was built with `xcodebuild` and run on a newly created iPhone 17 Pro Simulator (iOS 27.2). Each tab was launched, confirmed still running after 8 seconds, and screenshotted. The screenshots above are from that run.
-- CI: (added after the first CI run)
+- CI: GitHub Actions run 45392891266 passed both jobs on the runner's Xcode 16.4 / Swift 6.1.2: `library` (clean `swift build -Xswiftc -warnings-as-errors`, `swift test` 28 tests passed) and `demo-on-simulator` (built the demo, launched all three tabs on an iOS Simulator and captured screenshots). See the [Actions tab](https://github.com/rajatslakhina/quality-ratchet-article-demo/actions).
 
 ## Sources
 
