@@ -1,7 +1,8 @@
 import Foundation
 
-/// Illustrative sample data for the demo app and tests. The numbers are made up for the demo;
-/// they are not Shopify's figures or anyone's production data.
+/// Illustrative sample data for the demo app and tests. The numbers are made up, per screen,
+/// for the demo; they are not anyone's production data. The 190 MB only echoes Shopify's
+/// app-wide iOS P50 peak-memory figure.
 public enum Samples {
     public static func budget() throws -> QualityBudget {
         try QualityBudget(

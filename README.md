@@ -37,7 +37,7 @@ case .atLeast: tightened = max(bar.limit, value - slack)
 }
 ```
 
-The sample bars and checkpoints in `Samples.swift` are illustrative. They are not Shopify's numbers or anyone's production data.
+The sample bars and checkpoints in `Samples.swift` are illustrative, per screen and made up. They are not anyone's production data; the 190 MB only echoes Shopify's app-wide iOS P50 peak-memory figure.
 
 ## How to run it
 
@@ -56,7 +56,7 @@ Library only: `swift build` and `swift test` from the repo root. `Scripts/simula
 - A `QualityBudget` is one set of bars. Keep one budget per screen or flow: ratchet a shared budget with your leanest screen and every other screen has to beat it. (The demo applies one sample budget to three screens only to show the gate's verdicts.)
 - The library doesn't fail a build or save a ratcheted budget. Wiring `evaluate(_:)` into CI and committing the tightened limits back to the budget definition is your pipeline's job. This repo's CI runs the unit tests and the demo, not a quality gate on itself.
 - There is deliberately no API to loosen a bar. In a real repo, loosening should be a reviewed edit to the budget definition, with a named approver.
-- Headroom is relative to the measured value, so a bar at exactly 0 (like accessibility failures) stays at 0.
+- Headroom is relative to the measured value, so a checkpoint that measures 0 (like 0 accessibility failures) locks that bar at 0 with no slack, even if its limit was higher.
 
 ## Verification status
 

@@ -6,9 +6,6 @@ private func bar(_ id: String, _ direction: Direction = .atMost, limit: Double,
     try QualityBar(id: id, name: id, unit: "u", direction: direction, limit: limit, owner: "Owner", pass: pass)
 }
 
-private let evidenceForAll: [QualityPass: String] = Dictionary(
-    uniqueKeysWithValues: QualityPass.allCases.map { ($0, "evidence") })
-
 @Suite("QualityBar")
 struct QualityBarTests {
     @Test func atMostIncludesTheLimit() throws {

@@ -98,7 +98,7 @@ struct RatchetView: View {
 
     var body: some View {
         List {
-            Section("After “\(Samples.ordersList.title)” shipped (10% headroom)") {
+            Section("After “\(Samples.ordersList.title)” shipped (\(Int((Samples.headroom * 100).rounded()))% headroom)") {
                 ForEach(model.changes, id: \.barID) { change in
                     let name = model.budget.bar(change.barID)?.name ?? change.barID
                     let unit = model.budget.bar(change.barID)?.unit ?? ""
