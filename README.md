@@ -68,7 +68,7 @@ Library only: `swift build` and `swift test` from the repo root. `Scripts/simula
 
 **How would I run it on a real codebase?**
 1. Start with three bars you already measure, and commit one budget per screen or flow.
-2. In CI, turn your measurements (XCTest metrics; the number of issues `XCUIApplication.performAccessibilityAudit()` passes to its issue handler on each audited screen, returning true there to count them instead of failing the test; a failure-mode checklist) into a `Checkpoint`, with links to the evidence for each required pass.
+2. In CI, turn your measurements (XCTest metrics, read from the test run's `.xcresult` bundle, e.g. `xcrun xcresulttool get test-results metrics --path <bundle>.xcresult`; the number of issues `XCUIApplication.performAccessibilityAudit()` passes to its issue handler on each audited screen, returning true there to count them instead of failing the test; a failure-mode checklist) into a `Checkpoint`, with links to the evidence for each required pass.
 3. Call `evaluate(_:)` and fail the job on `.hold`, printing each `Finding`.
 4. After merge, call `ratcheted(by:headroom:)` on the shipped checkpoint (ideally on a median of several runs) and open a PR that commits the tightened limits back to the budget definition.
 5. Render each pass prompt with `PassPrompt.render` from that same budget, so the agent is asked about exactly the limits CI enforces.
